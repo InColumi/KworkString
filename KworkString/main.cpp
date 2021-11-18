@@ -14,11 +14,9 @@ int main()
 		String b("Max");
 		String c("Panov");
 
-		cout << b.concat(c) << endl;
-		cout << b.compare(String("Max")) << endl;
-		b[0] = 'a';
-		cout << b[0] << endl;
+		c.reverse();
 
+		cout << c * 100 << endl;
 	}
 	catch(const std::exception& err)
 	{

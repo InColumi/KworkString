@@ -144,3 +144,43 @@ char& String::operator[] (const size_t index)
 	}
 	return _symbols[index];
 }
+
+void String::reverse()
+{
+	if(_size == 0)
+	{
+		return;
+	}
+
+	char symbol;
+	size_t size2 = _size / 2;
+	for(size_t i = 0; i < size2; i++)
+	{
+		symbol = _symbols[i];
+		_symbols[i] = _symbols[_size - 1 - i];
+		_symbols[_size - 1 - i] = symbol;
+	}
+}
+
+String String::operator*(size_t size)
+{
+	if(size == 0 || size == 1)
+	{
+		return *this;
+	}
+
+	size_t newSize = _size * size;
+	char* newSymbols = new char[newSize + 1];
+
+	for(size_t i = 0; i < size; i++)
+	{
+		for(size_t j = 0; j < _size; j++)
+		{
+			newSymbols[j + i * _size] = _symbols[j];
+		}
+	}
+
+	newSymbols[newSize] = '\0';
+
+	return String(newSymbols);
+}

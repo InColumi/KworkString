@@ -20,6 +20,8 @@ public:
    String operator+(const String& s); // Перегрузку оператора + -аналог метода сoncat();
    int compare(const String& s); // -сравнивает строки по аналогу с strcmp;
    char& operator[] (const size_t index);
+   void reverse(); // -реверсирует строку;
+   String operator*(size_t value);
   
 
 
@@ -28,12 +30,10 @@ public:
    void pop(size_t index); // -удаляет символ по индексу;
    size_t size() const; // -возвращает длину строки;
    
-   void reverse(); // -реверсирует строку;
    size_t find(char symbol); // -возвращает индекс заданного символа;
    int find(char symbol, size_t index); // -возвращает индекс первого символа по заданному вхождению;
    String erase(size_t start, size_t end); // -удаляет символы с заданного начального и конечного индекса;
    String& operator+=(const String& s); 
-   String& operator*(size_t value);
 
 
    friend std::ostream& operator<< (std::ostream& out, const String& s)
