@@ -17,17 +17,20 @@ public:
     ~String(); //  Деструктор;
     
    String concat(const String& s2); // -соединяет строку с другой;
+   String operator+(const String& s); // Перегрузку оператора + -аналог метода сoncat();
+   int compare(const String& s); // -сравнивает строки по аналогу с strcmp;
+  
+
+
+
    void pop(); // -удаляет последний символ;
    void pop(size_t index); // -удаляет символ по индексу;
    size_t size() const; // -возвращает длину строки;
-  
    
-   bool compare(); // -сравнивает строки по аналогу с strcmp;
    void reverse(); // -реверсирует строку;
    size_t find(char symbol); // -возвращает индекс заданного символа;
    int find(char symbol, size_t index); // -возвращает индекс первого символа по заданному вхождению;
    String erase(size_t start, size_t end); // -удаляет символы с заданного начального и конечного индекса;
-   String& operator+(const String& s); // Перегрузку оператора + -аналог метода сoncat();
    String& operator+=(const String& s); 
    String& operator*(size_t value);
    int operator[] (const size_t index)

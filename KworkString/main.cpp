@@ -15,14 +15,7 @@ int main()
 		String c("Panov");
 
 		cout << b.concat(c) << endl;
-		c.pop();
-		cout << c << endl;
-		c.pop();
-		cout << c << endl;
-		c.pop();
-		cout << c << endl;
-		c.pop();
-		cout << c << endl;
+		cout << b.compare(String("Max")) << endl;
 
 	}
 	catch(const std::exception& err)
