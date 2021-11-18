@@ -12,11 +12,10 @@ int main()
 		cout << a.size() << endl;
 		cout << a << endl;
 		String b("Max");
-		String c("Panov");
+		String c("Panav");
 
-		c.reverse();
-
-		cout << c * 100 << endl;
+		c.pop(0);
+		cout << c << endl;
 	}
 	catch(const std::exception& err)
 	{

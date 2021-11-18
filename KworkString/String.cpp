@@ -25,17 +25,6 @@ String::String(const char* symbols)
 	_symbols[_size] = '\0';
 }
 
-String::String(const String& s)
-{
-	_size = strlen(s._symbols);
-	_symbols = new char[_size + 1];
-	for(size_t i = 0; i < _size; i++)
-	{
-		_symbols[i] = s._symbols[i];
-	}
-	_symbols[_size] = '\0';
-}
-
 String::~String()
 {
 	delete[] _symbols;
@@ -64,15 +53,16 @@ void String::pop()
 	{
 		return;
 	}
-
-	char* newSymbols = new char[_size - 1];
-	for(size_t i = 0; i < _size - 1; i++)
+	size_t newSize = _size - 1;
+	char* newSymbols = new char[newSize + 1];
+	for(size_t i = 0; i < newSize; i++)
 	{
 		newSymbols[i] = _symbols[i];
 	}
-	newSymbols[_size - 1] = '\0';
+	newSymbols[newSize] = '\0';
 	delete[] _symbols;
 	_symbols = newSymbols;
+	_size = newSize;
 }
 
 void String::pop(size_t index)
@@ -86,8 +76,8 @@ void String::pop(size_t index)
 	{
 		throw std::invalid_argument("Index must be in interval [0, size)!");
 	}
-
-	char* newSymbols = new char[_size - 1];
+	size_t newSize = _size - 1;
+	char* newSymbols = new char[newSize + 1];
 	for(size_t i = 0; i < index; i++)
 	{
 		newSymbols[i] = _symbols[i];
@@ -95,12 +85,13 @@ void String::pop(size_t index)
 
 	for(size_t i = index + 1; i < _size; i++)
 	{
-		newSymbols[i] = _symbols[i];
+		newSymbols[i - 1] = _symbols[i];
 	}
 
+	newSymbols[newSize] = '\0';
 	delete[] _symbols;
 	_symbols = newSymbols;
-	--_size;
+	_size = newSize;
 }
 
 String String::operator+(const String& s)
@@ -115,7 +106,6 @@ size_t String::size() const
 
 int String::compare(const String& s)
 {
-	int result;
 	if(s._size == _size)
 	{
 		size_t index = 0;
@@ -183,4 +173,121 @@ String String::operator*(size_t size)
 	newSymbols[newSize] = '\0';
 
 	return String(newSymbols);
+}
+
+String& String::operator+=(const String& s)
+{
+	size_t newSize = _size + s._size;
+	char* newSymbols = new char[newSize + 1];
+
+	for(size_t i = 0; i < _size; i++)
+	{
+		newSymbols[i] = _symbols[i];
+	}
+
+	for(size_t i = 0; i < s._size; i++)
+	{
+		newSymbols[i + _size] = s._symbols[i];
+	}
+	newSymbols[newSize] = '\0';
+
+	delete[] _symbols;
+	_symbols = newSymbols;
+	_size = newSize;
+
+	return *this;
+}
+
+int String::find(char symbol)
+{
+	for(size_t i = 0; i < _size; i++)
+	{
+		if(_symbols[i] == symbol)
+		{
+			return i;
+		}
+	}
+	return -1;
+}
+
+int String::find(char symbol, size_t index)
+{
+	if(index >= _size)
+	{
+		throw std::invalid_argument("Index must be in interval [0, size)!");
+	}
+
+	for(size_t i = index; i < _size; i++)
+	{
+		if(_symbols[i] == symbol)
+		{
+			return i;
+		}
+	}
+	return -1;
+}
+
+String String::erase(size_t start, size_t end)
+{
+	if(end >= _size || start >= end)
+	{
+		throw std::invalid_argument("Index must be in interval [0, size)!");
+	}
+
+	size_t differents = end - start;
+	size_t newSize = _size - differents;
+	char* newSymbols = new char[newSize + 1];
+
+	for(size_t i = 0; i < start; i++)
+	{
+		newSymbols[i] = _symbols[i];
+	}
+
+	for(size_t i = end; i < _size; i++)
+	{
+		newSymbols[i - end] = _symbols[i];
+	}
+	newSymbols[newSize] = '\0';
+
+	delete[] _symbols;
+	_symbols = newSymbols;
+	_size = newSize;
+
+	return *this;
+}
+
+String::String(const String& s): _symbols(nullptr), _size(s._size)
+{
+	_symbols = new char[_size];
+	for(size_t i = 0; i < _size; i++)
+	{
+		_symbols[i] = s._symbols[i];
+	}
+}
+
+String& String::operator=(const String& s)
+{
+	if(_symbols)
+		delete[] _symbols;
+
+	_size = s._size;
+	_symbols = new char[_size];
+	memcpy(_symbols, s._symbols, _size);
+	return *this;
+}
+
+String::String(String&& s): _symbols(s._symbols), _size(s._size)
+{
+	s._symbols = nullptr;
+}
+
+String& String::operator=(String&& s)
+{
+	if(_symbols)
+		delete[] _symbols;
+
+	_size = s._size;
+	_symbols = s._symbols;
+	s._symbols = nullptr;
+	return *this;
 }
