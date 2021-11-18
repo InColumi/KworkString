@@ -16,12 +16,14 @@ int main()
 
 		cout << b.concat(c) << endl;
 		cout << b.compare(String("Max")) << endl;
+		b[0] = 'a';
+		cout << b[0] << endl;
 
 	}
 	catch(const std::exception& err)
 	{
 		cout << err.what() << endl;
 	}
-
+	system("pause");
 	return 0;
 }

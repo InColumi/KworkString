@@ -19,6 +19,7 @@ public:
    String concat(const String& s2); // -соединяет строку с другой;
    String operator+(const String& s); // Перегрузку оператора + -аналог метода сoncat();
    int compare(const String& s); // -сравнивает строки по аналогу с strcmp;
+   char& operator[] (const size_t index);
   
 
 
@@ -33,10 +34,7 @@ public:
    String erase(size_t start, size_t end); // -удаляет символы с заданного начального и конечного индекса;
    String& operator+=(const String& s); 
    String& operator*(size_t value);
-   int operator[] (const size_t index)
-   {
-       return _symbols[index];
-   }
+
 
    friend std::ostream& operator<< (std::ostream& out, const String& s)
    {

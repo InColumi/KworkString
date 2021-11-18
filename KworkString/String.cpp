@@ -108,6 +108,11 @@ String String::operator+(const String& s)
 	return this->concat(s);
 }
 
+size_t String::size() const
+{
+	return _size;
+}
+
 int String::compare(const String& s)
 {
 	int result;
@@ -131,7 +136,11 @@ int String::compare(const String& s)
 	}
 }
 
-size_t String::size() const
+char& String::operator[] (const size_t index)
 {
-	return _size;
+	if(index >= _size)
+	{
+		throw std::invalid_argument("Index must be in interval [0, size)!");
+	}
+	return _symbols[index];
 }
